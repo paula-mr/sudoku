@@ -46,7 +46,7 @@ int atribuirCor(Grafo* grafo, int index, unsigned int coresUsadas) {
 	} else {
 		int cor = 0;
 		
-		for (unsigned int i = 0; i < coresUsadas && cor == 0; i++) {
+		for (unsigned int i = 1; i < coresUsadas && cor == 0; i++) {
 			if (!grafo->contem(cores, i))
 				cor = i;
 		}
@@ -54,6 +54,8 @@ int atribuirCor(Grafo* grafo, int index, unsigned int coresUsadas) {
 		grafo->nodes[index].valor = cor;
 		std::cout << "a"<< cor << std::endl;
 	}
+
+	grafo->imprimir();
 
 	return coresUsadas;
 }

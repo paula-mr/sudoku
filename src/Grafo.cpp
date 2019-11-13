@@ -58,8 +58,9 @@ std::vector<int> Grafo::recuperarCoresVizinhas(int u) {
     std::vector<int> elementosUnicos;
 
     for (unsigned int i=0; i < nodes[u].adjacencias.size(); i++) {
-        if (nodes[nodes[u].adjacencias[i]].valor != 0 && !contem(elementosUnicos, nodes[nodes[u].adjacencias[i]].valor)) {
-            elementosUnicos.push_back(nodes[nodes[u].adjacencias[i]].valor);
+        int adjacencia = nodes[u].adjacencias[i];
+        if (nodes[adjacencia].valor != 0 && !contem(elementosUnicos, nodes[adjacencia].valor)) {
+            elementosUnicos.push_back(nodes[adjacencia].valor);
         }
     }
     return elementosUnicos;
@@ -67,6 +68,16 @@ std::vector<int> Grafo::recuperarCoresVizinhas(int u) {
 
 bool Grafo::contem(std::vector<int> vetor, int elemento) {
     return (std::find(vetor.begin(), vetor.end(), elemento) != vetor.end());
+}
+
+void Grafo::imprimir() {
+    for (int k=0; k<tamanho; k++) {
+        for (int l=0; l<tamanho; l++) {
+            int posicao = k*tamanho + l;
+            std::cout << nodes[posicao].valor << " ";
+        }
+        std::cout << std::endl;
+    }
 }
 
 #endif

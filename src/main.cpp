@@ -33,8 +33,9 @@ int main(int argc, char *argv[]) {
     resolver(grafo);
 
     for (int k=0; k<n; k++) {
-        for (unsigned int l=0; l<grafo->nodes[k].adjacencias.size(); l++) {
-            std::cout << grafo->nodes[k].valor << " ";
+        for (int l=0; l<n; l++) {
+            int posicao = k*n + l;
+            std::cout << grafo->nodes[posicao].valor << " ";
         }
         std::cout << std::endl;
     }
