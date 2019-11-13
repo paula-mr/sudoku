@@ -57,13 +57,14 @@ int Grafo::recuperarGrauSaturado(int u) {
 std::vector<int> Grafo::recuperarCoresVizinhas(int u) {
     std::vector<int> elementosUnicos;
 
+    //percorre as cores vizinhas adjacentes
     for (unsigned int i=0; i < nodes[u].adjacencias.size(); i++) {
         int adjacencia = nodes[u].adjacencias[i];
         if (nodes[adjacencia].valor != 0 && !contem(elementosUnicos, nodes[adjacencia].valor)) {
             elementosUnicos.push_back(nodes[adjacencia].valor);
         }
     }
-
+    
     return elementosUnicos;
 }
 
