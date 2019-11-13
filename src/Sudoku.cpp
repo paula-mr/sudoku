@@ -37,7 +37,7 @@ void resolver(Grafo* grafo) {
 
 int atribuirCor(Grafo* grafo, int index, unsigned int coresUsadas) {
 	std::vector<int> cores = grafo->recuperarCoresVizinhas(index);
-	std::cout << "b" << cores.size() << std::endl;
+	std::cout << "b" << index << std::endl;
 
 	if (cores.size() == coresUsadas) {
 		coresUsadas++;
@@ -45,14 +45,19 @@ int atribuirCor(Grafo* grafo, int index, unsigned int coresUsadas) {
 		std::cout << coresUsadas << std::endl;
 	} else {
 		int cor = 0;
+
+		for (unsigned int i = 0; i <= cores.size(); i++) {
+			std::cout << "cor " << cores[i] << " " << std::endl;
+		}
 		
-		for (unsigned int i = 1; i < coresUsadas && cor == 0; i++) {
+		for (unsigned int i = 1; i <= coresUsadas && cor == 0; i++) {
 			if (!grafo->contem(cores, i))
 				cor = i;
 		}
 
 		grafo->nodes[index].valor = cor;
-		std::cout << "a"<< cor << std::endl;
+		coresUsadas++;
+		std::cout << "a" << cor << std::endl;
 	}
 
 	grafo->imprimir();
