@@ -63,6 +63,7 @@ std::vector<int> Grafo::recuperarCoresVizinhas(int u) {
             elementosUnicos.push_back(nodes[adjacencia].valor);
         }
     }
+
     return elementosUnicos;
 }
 
@@ -78,6 +79,8 @@ void Grafo::imprimir() {
         }
         std::cout << std::endl;
     }
+
+    std::cout << std::endl;
 }
 
 #endif
