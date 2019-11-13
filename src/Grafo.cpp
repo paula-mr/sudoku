@@ -2,7 +2,9 @@
 #define GRAFO_CPP
 
 #include "Grafo.h"
+
 #include <iostream>
+#include <algorithm>
 
 Grafo::Grafo(Node *nodes, int i, int j, int tamanho) {
     this->nodes = nodes;
@@ -19,9 +21,9 @@ void Grafo::adicionarAdjacencia(int valor, int k, int l) {
 
     //adiciona proximas adjacencias verticais
     int i = 1;
-    while (i*tamanho < tamanho*tamanho) {
+    while (posicao + i*tamanho < tamanho*tamanho) {
         nodes[posicao].adjacencias.push_back(posicao + i*tamanho);
-        nodes[l + i*tamanho].adjacencias.push_back(posicao);
+        nodes[posicao + i*tamanho].adjacencias.push_back(posicao);
         i++;
     }
 
@@ -36,6 +38,35 @@ void Grafo::adicionarAdjacencia(int valor, int k, int l) {
 
 int Grafo::recuperarGrau(int u) {
     return nodes[u].adjacencias.size();
+}
+
+int Grafo::recuperarGrauSaturado(int u) {
+    int grau = 0;
+    std::vector<int> elementosUnicos;
+
+    for (unsigned int i=0; i < nodes[u].adjacencias.size(); i++) {
+        int adjacencia = nodes[u].adjacencias[i];
+        if (nodes[adjacencia].valor != 0 && !contem(elementosUnicos, nodes[adjacencia].valor)) {
+            grau++;
+            elementosUnicos.push_back(nodes[nodes[u].adjacencias[i]].valor);
+        }
+    }
+    return grau;
+}
+
+std::vector<int> Grafo::recuperarCoresVizinhas(int u) {
+    std::vector<int> elementosUnicos;
+
+    for (unsigned int i=0; i < nodes[u].adjacencias.size(); i++) {
+        if (nodes[nodes[u].adjacencias[i]].valor != 0 && !contem(elementosUnicos, nodes[nodes[u].adjacencias[i]].valor)) {
+            elementosUnicos.push_back(nodes[nodes[u].adjacencias[i]].valor);
+        }
+    }
+    return elementosUnicos;
+}
+
+bool Grafo::contem(std::vector<int> vetor, int elemento) {
+    return (std::find(vetor.begin(), vetor.end(), elemento) != vetor.end());
 }
 
 #endif

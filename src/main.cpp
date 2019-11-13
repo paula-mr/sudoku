@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "Grafo.h"
+#include "Sudoku.h"
 
 FILE* abrirArquivo(int argc, char *argv[]);
 int recuperarNumero(FILE* arquivo);
@@ -29,9 +30,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    resolver(grafo);
+
     for (int k=0; k<n; k++) {
         for (unsigned int l=0; l<grafo->nodes[k].adjacencias.size(); l++) {
-            std::cout << k << ":" << grafo->nodes[k].adjacencias[l] << " ";
+            std::cout << grafo->nodes[k].valor << " ";
         }
         std::cout << std::endl;
     }

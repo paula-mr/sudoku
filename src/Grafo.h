@@ -15,6 +15,9 @@ class Grafo {
         ~Grafo();
         void adicionarAdjacencia(int valor, int k, int l);
         int recuperarGrau(int u);
+        int recuperarGrauSaturado(int u);
+        std::vector<int> recuperarCoresVizinhas(int u);
+        bool contem(std::vector<int> vetor, int elemento);
 };
 
 #endif
