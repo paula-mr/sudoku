@@ -46,13 +46,16 @@ void Grafo::adicionarAdjacencia(int valor, int linha, int coluna) {
 
     while (i%linhas != 0) {
         int posicaoQuadrante = i*tamanho + j;
+
+        if (j != coluna){
+            nodes[posicao].adjacencias.push_back(posicaoQuadrante);
+            nodes[posicaoQuadrante].adjacencias.push_back(posicao);
+        }
+        j++;
+
         if (j%colunas == 0) {
             j -= colunas;
             i++;
-        } else if (j != coluna){
-            nodes[posicao].adjacencias.push_back(posicaoQuadrante);
-            nodes[posicaoQuadrante].adjacencias.push_back(posicao);
-            j++;
         }
     }
 }
