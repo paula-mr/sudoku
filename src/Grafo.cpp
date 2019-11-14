@@ -11,7 +11,6 @@ Grafo::Grafo(Node *nodes, int colunas, int linhas, int tamanho) {
     this->colunas = colunas;
     this->linhas = linhas;
     this->tamanho = tamanho;
-    this->quantidadeNodesColoridos = 0;
 }
 
 Grafo::~Grafo() = default;
@@ -19,11 +18,6 @@ Grafo::~Grafo() = default;
 void Grafo::adicionarAdjacencia(int valor, int linha, int coluna) {
     int posicao = linha*tamanho + coluna;
     nodes[posicao].valor = valor;
-
-    if (valor != 0) 
-        this->quantidadeNodesColoridos++;
-
-
     //adiciona proximas adjacencias verticais
     int i = 1;
     while (posicao + i*tamanho < tamanho*tamanho) {
@@ -92,8 +86,13 @@ bool Grafo::contem(std::vector<int> vetor, int elemento) {
     return (std::find(vetor.begin(), vetor.end(), elemento) != vetor.end());
 }
 
-void Grafo::incrementarNodesColoridos() {
-    this->quantidadeNodesColoridos++;
+bool Grafo::validar() {
+    for (int k=0; k<tamanho*tamanho; k++) {
+        if (nodes[k].valor == 0 || nodes[k].valor > tamanho)
+            return false;
+    }
+
+    return true;
 }
 
 void Grafo::imprimir() {

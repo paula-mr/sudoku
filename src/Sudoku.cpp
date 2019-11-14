@@ -8,9 +8,11 @@ int atribuirCor(Grafo* grafo, int index, unsigned int coresUsadas);
 
 void resolver(Grafo* grafo) {
 	unsigned int coresUsadas = 1;
+	int qtdNodesColoridos = 0;
 	int tamanho = grafo->tamanho*grafo->tamanho;
 
-	while (grafo->quantidadeNodesColoridos < tamanho) {
+
+	while (qtdNodesColoridos < tamanho) {
 		int max = -1;
 		int index = -1;
 
@@ -29,10 +31,11 @@ void resolver(Grafo* grafo) {
 			}
 		}
 
-		coresUsadas = atribuirCor(grafo, index, coresUsadas);
-		grafo->incrementarNodesColoridos();
-	}
+		if (grafo->nodes[index].valor == 0)
+			coresUsadas = atribuirCor(grafo, index, coresUsadas);
 
+		qtdNodesColoridos++;
+	}
 }
 
 int atribuirCor(Grafo* grafo, int index, unsigned int coresUsadas) {

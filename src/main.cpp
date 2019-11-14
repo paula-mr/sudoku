@@ -32,6 +32,11 @@ int main(int argc, char *argv[]) {
 
     resolver(grafo);
 
+    if (grafo->validar())
+        std::cout << "solução" << std::endl;
+    else
+        std::cout << "sem solução" << std::endl;
+
     grafo->imprimir();
 
     return 0;

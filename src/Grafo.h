@@ -10,7 +10,6 @@ class Grafo {
         int tamanho;
         int colunas;
         int linhas;
-        int quantidadeNodesColoridos;
 
         Grafo(Node *nodes, int colunas, int linhas, int tamanho);
         ~Grafo();
@@ -19,7 +18,7 @@ class Grafo {
         int recuperarGrauSaturado(int u);
         std::vector<int> recuperarCoresVizinhas(int u);
         bool contem(std::vector<int> vetor, int elemento);
-        void incrementarNodesColoridos();
+        bool validar();
         void imprimir();
 };
 
