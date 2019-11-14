@@ -22,23 +22,17 @@ int main(int argc, char *argv[]) {
     Node nodes[n*n];
     Grafo* grafo = new Grafo(nodes, i, j, n);
 
-    for (int k=0; k<n; k++) {
-        for (int l=0; l<n; l++) {
+    for (int linha=0; linha<n; linha++) {
+        for (int coluna=0; coluna<n; coluna++) {
             int valor = recuperarNumero(arquivo);
 
-            grafo->adicionarAdjacencia(valor, k, l);
+            grafo->adicionarAdjacencia(valor, linha, coluna);
         }
     }
 
     resolver(grafo);
 
-    for (int k=0; k<n; k++) {
-        for (int l=0; l<n; l++) {
-            int posicao = k*n + l;
-            std::cout << grafo->nodes[posicao].valor << " ";
-        }
-        std::cout << std::endl;
-    }
+    grafo->imprimir();
 
     return 0;
 }

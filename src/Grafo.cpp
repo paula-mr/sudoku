@@ -6,18 +6,23 @@
 #include <iostream>
 #include <algorithm>
 
-Grafo::Grafo(Node *nodes, int i, int j, int tamanho) {
+Grafo::Grafo(Node *nodes, int colunas, int linhas, int tamanho) {
     this->nodes = nodes;
-    this->i = i;
-    this->j = j;
+    this->colunas = colunas;
+    this->linhas = linhas;
     this->tamanho = tamanho;
+    this->quantidadeNodesColoridos = 0;
 }
 
 Grafo::~Grafo() = default;
 
-void Grafo::adicionarAdjacencia(int valor, int k, int l) {
-    int posicao = k*tamanho + l;
+void Grafo::adicionarAdjacencia(int valor, int linha, int coluna) {
+    int posicao = linha*tamanho + coluna;
     nodes[posicao].valor = valor;
+
+    if (valor != 0) 
+        this->quantidadeNodesColoridos++;
+
 
     //adiciona proximas adjacencias verticais
     int i = 1;
@@ -29,10 +34,25 @@ void Grafo::adicionarAdjacencia(int valor, int k, int l) {
 
     //adiciona proximas adjacencias horizontais
     int j = 1;
-    while (posicao + j < tamanho*(k+1)) {
+    while (posicao + j < tamanho*(linha+1)) {
         nodes[posicao].adjacencias.push_back(posicao + j);
         nodes[posicao + j].adjacencias.push_back(posicao);
         j++;
+    }
+
+    //adiciona proximas adjacencias do quadrante
+    i = linha + 1;
+    j = coluna + 1;
+    while ((i-linhas)%linhas != 0) {
+        int posicaoQuadrante = i*tamanho + j;
+        if ((j-colunas)%colunas == 0.0) {
+            j = coluna + 1;
+            i++;
+        } else {
+            nodes[posicao].adjacencias.push_back(posicaoQuadrante);
+            nodes[posicaoQuadrante].adjacencias.push_back(posicao);
+            j++;
+        }
     }
 }
 
@@ -70,6 +90,10 @@ std::vector<int> Grafo::recuperarCoresVizinhas(int u) {
 
 bool Grafo::contem(std::vector<int> vetor, int elemento) {
     return (std::find(vetor.begin(), vetor.end(), elemento) != vetor.end());
+}
+
+void Grafo::incrementarNodesColoridos() {
+    this->quantidadeNodesColoridos++;
 }
 
 void Grafo::imprimir() {
