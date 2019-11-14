@@ -30,6 +30,14 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    /*for (int k=0; k<n*n; k++) {
+        for (unsigned int l=0; l<grafo->nodes[k].adjacencias.size(); l++) {
+            std::cout << k << "-" << grafo->nodes[k].adjacencias[l] << " ";
+        }
+
+        std::cout << std::endl;
+    }*/
+
     resolver(grafo);
 
     if (grafo->validar())

@@ -4,10 +4,10 @@
 #include "Sudoku.h"
 #include <iostream>
 
-int atribuirCor(Grafo* grafo, int index, unsigned int coresUsadas);
+void atribuirCor(Grafo* grafo, int index);
+int encontrarMaiorValor(std::vector<int> vetor);
 
 void resolver(Grafo* grafo) {
-	unsigned int coresUsadas = 1;
 	int qtdNodesColoridos = 0;
 	int tamanho = grafo->tamanho*grafo->tamanho;
 
@@ -32,19 +32,21 @@ void resolver(Grafo* grafo) {
 		}
 
 		if (grafo->nodes[index].valor == 0)
-			coresUsadas = atribuirCor(grafo, index, coresUsadas);
+			atribuirCor(grafo, index);
 
 		qtdNodesColoridos++;
+
+		/*std::cout << index << std::endl;
+		grafo->imprimir();*/
 	}
 }
 
-int atribuirCor(Grafo* grafo, int index, unsigned int coresUsadas) {
+void atribuirCor(Grafo* grafo, int index) {
 	std::vector<int> cores = grafo->recuperarCoresVizinhas(index);
+	unsigned int maiorValor = encontrarMaiorValor(cores);
 
-	if (cores.size() == coresUsadas) {
-		coresUsadas++;
-		grafo->nodes[index].valor = coresUsadas;
-		std::cout << coresUsadas << std::endl;
+	if (cores.size() == maiorValor) {
+		grafo->nodes[index].valor = maiorValor+1;
 	} else {
 		int cor = 0;
 		
@@ -55,8 +57,18 @@ int atribuirCor(Grafo* grafo, int index, unsigned int coresUsadas) {
 
 		grafo->nodes[index].valor = cor;
 	}
+}
 
-	return coresUsadas;
+
+int encontrarMaiorValor(std::vector<int> vetor) {
+	int max = vetor[0];
+	for (unsigned int i=1; i < vetor.size(); i++) {
+		if (vetor[i] > max) {
+			max = vetor[i];
+		}
+	}
+
+	return max;
 }
 
 #endif
