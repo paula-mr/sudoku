@@ -7,10 +7,12 @@
 #include <iostream>
 #include <algorithm>
 
-Grafo::Grafo(Node *nodes, int colunas, int linhas, int tamanho) {
+#include <bits/stdc++.h> 
+
+Grafo::Grafo(Node *nodes, int quantidadeColunas, int quantidadeLinhas, int tamanho) {
     this->nodes = nodes;
-    this->colunas = colunas;
-    this->linhas = linhas;
+    this->quantidadeColunas = quantidadeColunas;
+    this->quantidadeLinhas = quantidadeLinhas;
     this->tamanho = tamanho;
 }
 
@@ -40,12 +42,12 @@ void Grafo::adicionarAdjacencia(int valor, int linha, int coluna) {
 
     //define coluna inicial do quadrante
     j = coluna + 1;
-    while (j%colunas != 0) {
+    while (j%quantidadeColunas != 0) {
         j++;
     }
-    j -= colunas;
+    j -= quantidadeColunas;
 
-    while (i%linhas != 0) {
+    while (i%quantidadeLinhas != 0) {
         int posicaoQuadrante = i*tamanho + j;
 
         if (j != coluna){
@@ -54,37 +56,37 @@ void Grafo::adicionarAdjacencia(int valor, int linha, int coluna) {
         }
         j++;
 
-        if (j%colunas == 0) {
-            j -= colunas;
+        if (j%quantidadeColunas == 0) {
+            j -= quantidadeColunas;
             i++;
         }
     }
 }
 
-int Grafo::recuperarGrau(int u) {
-    return nodes[u].adjacencias.size();
+int Grafo::recuperarGrau(int posicao) {
+    return nodes[posicao].adjacencias.size();
 }
 
-int Grafo::recuperarGrauSaturado(int u) {
+int Grafo::recuperarGrauSaturado(int posicao) {
     int grau = 0;
     std::vector<int> elementosUnicos;
 
-    for (unsigned int i=0; i < nodes[u].adjacencias.size(); i++) {
-        int adjacencia = nodes[u].adjacencias[i];
+    for (unsigned int i=0; i < nodes[posicao].adjacencias.size(); i++) {
+        int adjacencia = nodes[posicao].adjacencias[i];
         if (nodes[adjacencia].valor != 0 && !contem(elementosUnicos, nodes[adjacencia].valor)) {
             grau++;
-            elementosUnicos.push_back(nodes[nodes[u].adjacencias[i]].valor);
+            elementosUnicos.push_back(nodes[nodes[posicao].adjacencias[i]].valor);
         }
     }
     return grau;
 }
 
-std::vector<int> Grafo::recuperarCoresVizinhas(int u) {
+std::vector<int> Grafo::recuperarCoresVizinhas(int posicao) {
     std::vector<int> elementosUnicos;
 
     //percorre as cores vizinhas adjacentes
-    for (unsigned int i=0; i < nodes[u].adjacencias.size(); i++) {
-        int adjacencia = nodes[u].adjacencias[i];
+    for (unsigned int i=0; i < nodes[posicao].adjacencias.size(); i++) {
+        int adjacencia = nodes[posicao].adjacencias[i];
         if (nodes[adjacencia].valor != 0 && !contem(elementosUnicos, nodes[adjacencia].valor)) {
             elementosUnicos.push_back(nodes[adjacencia].valor);
         }
@@ -93,19 +95,89 @@ std::vector<int> Grafo::recuperarCoresVizinhas(int u) {
     return elementosUnicos;
 }
 
-bool Grafo::validar() {
-    for (int k=0; k<tamanho*tamanho; k++) {
-        if (nodes[k].valor == 0 || nodes[k].valor > tamanho)
-            return false;
-    }
+bool Grafo::validarLinha(int linha) { 
+    std::vector<int> numerosJaVistos; 
+  
+    for (int i = 0; i < tamanho; i++) { 
+  		int posicao = linha*tamanho + i;
 
-    return true;
-}
+  		//se o numero atual ja foi visto, retorna falso
+        if (contem(numerosJaVistos, nodes[posicao].valor)) 
+            return false; 
+
+        if (nodes[posicao].valor == 0 || nodes[posicao].valor > tamanho)
+            return false;
+
+        numerosJaVistos.push_back(nodes[posicao].valor);
+
+    } 
+    return true; 
+} 
+  
+bool Grafo::validarColuna(int coluna) 
+{ 
+    std::vector<int> numerosJaVistos; 
+  
+    for (int i = 0; i < tamanho; i++) { 
+  		int posicao = i*tamanho + coluna;
+
+        //se o numero atual ja foi visto, retorna falso
+        if (contem(numerosJaVistos, nodes[posicao].valor)) 
+            return false; 
+
+        if (nodes[posicao].valor == 0 || nodes[posicao].valor > tamanho)
+            return false;
+
+        numerosJaVistos.push_back(nodes[posicao].valor);
+
+    } 
+    return true; 
+} 
+
+bool Grafo::validarQuadrante(int linhaInicial, int colunaInicial) 
+{ 
+    std::vector<int> numerosJaVistos; 
+  
+    for (int linha = 0; linha < quantidadeLinhas; linha++) { 
+        for (int coluna = 0; coluna < quantidadeColunas; coluna++) { 
+
+        	int posicao = (linha + linhaInicial)*tamanho + (coluna + colunaInicial);
+  
+            //se o numero atual ja foi visto, retorna falso
+            if (contem(numerosJaVistos, nodes[posicao].valor)) 
+                return false; 
+
+            if (nodes[posicao].valor == 0 || nodes[posicao].valor > tamanho)
+	            return false;
+
+	        numerosJaVistos.push_back(nodes[posicao].valor);
+  
+        } 
+    } 
+    return true; 
+} 
+  
+bool Grafo::validarPosicao(int linha, int coluna) 
+{ 
+    return validarLinha(linha) && validarColuna(coluna) && 
+           validarQuadrante(linha - linha % quantidadeLinhas, coluna - coluna % quantidadeColunas); 
+} 
+  
+bool Grafo::validarSolucao() 
+{ 
+    for (int i = 0; i < tamanho; i++) { 
+        for (int j = 0; j < tamanho; j++) { 
+            if (!validarPosicao(i, j)) 
+                return false; 
+        } 
+    } 
+    return true; 
+} 
 
 void Grafo::imprimir() {
-    for (int k=0; k<tamanho; k++) {
-        for (int l=0; l<tamanho; l++) {
-            int posicao = k*tamanho + l;
+    for (int linha=0; linha<tamanho; linha++) {
+        for (int coluna=0; coluna<tamanho; coluna++) {
+            int posicao = linha*tamanho + coluna;
             std::cout << nodes[posicao].valor << " ";
         }
         std::cout << std::endl;

@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
 
     resolver(grafo);
 
-    if (grafo->validar())
+    if (grafo->validarSolucao())
         std::cout << "solução" << std::endl;
     else
         std::cout << "sem solução" << std::endl;

@@ -8,17 +8,22 @@ class Grafo {
     public:
         Node *nodes;
         int tamanho;
-        int colunas;
-        int linhas;
+        int quantidadeColunas;
+        int quantidadeLinhas;
 
-        Grafo(Node *nodes, int colunas, int linhas, int tamanho);
+        Grafo(Node *nodes, int quantidadeColunas, int quantidadeLinhas, int tamanho);
         ~Grafo();
-        void adicionarAdjacencia(int valor, int k, int l);
-        int recuperarGrau(int u);
-        int recuperarGrauSaturado(int u);
-        std::vector<int> recuperarCoresVizinhas(int u);
-        bool validar();
+        void adicionarAdjacencia(int valor, int linha, int coluna);
+        int recuperarGrau(int posicao);
+        int recuperarGrauSaturado(int posicao);
+        std::vector<int> recuperarCoresVizinhas(int posicao);
         void imprimir();
+
+        bool validarSolucao();
+        bool validarLinha(int linha);
+        bool validarColuna(int coluna);
+        bool validarQuadrante(int linhaInicial, int colunaInicial);
+        bool validarPosicao(int linha, int coluna);
 };
 
 #endif
