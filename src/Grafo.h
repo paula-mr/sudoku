@@ -17,7 +17,6 @@ class Grafo {
         int recuperarGrau(int u);
         int recuperarGrauSaturado(int u);
         std::vector<int> recuperarCoresVizinhas(int u);
-        bool contem(std::vector<int> vetor, int elemento);
         bool validar();
         void imprimir();
 };

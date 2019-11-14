@@ -2,6 +2,7 @@
 #define GRAFO_CPP
 
 #include "Grafo.h"
+#include "Util.h"
 
 #include <iostream>
 #include <algorithm>
@@ -90,10 +91,6 @@ std::vector<int> Grafo::recuperarCoresVizinhas(int u) {
     }
     
     return elementosUnicos;
-}
-
-bool Grafo::contem(std::vector<int> vetor, int elemento) {
-    return (std::find(vetor.begin(), vetor.end(), elemento) != vetor.end());
 }
 
 bool Grafo::validar() {

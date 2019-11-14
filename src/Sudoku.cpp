@@ -2,10 +2,9 @@
 #define SUDOKU_CPP
 
 #include "Sudoku.h"
-#include <iostream>
+#include "Util.h"
 
 void atribuirCor(Grafo* grafo, int index);
-int encontrarMaiorValor(std::vector<int> vetor);
 
 void resolver(Grafo* grafo) {
 	int qtdNodesColoridos = 0;
@@ -51,24 +50,12 @@ void atribuirCor(Grafo* grafo, int index) {
 		int cor = 0;
 		
 		for (int i = 1; i <= grafo->tamanho && cor == 0; i++) {
-			if (!grafo->contem(cores, i))
+			if (!contem(cores, i))
 				cor = i;
 		}
 
 		grafo->nodes[index].valor = cor;
 	}
-}
-
-
-int encontrarMaiorValor(std::vector<int> vetor) {
-	int max = vetor[0];
-	for (unsigned int i=1; i < vetor.size(); i++) {
-		if (vetor[i] > max) {
-			max = vetor[i];
-		}
-	}
-
-	return max;
 }
 
 #endif
