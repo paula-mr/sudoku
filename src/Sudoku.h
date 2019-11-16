@@ -3,6 +3,6 @@
 
 #include "Grafo.h"
 
-void resolver(Grafo* grafo);
+bool resolver(Grafo* grafo);
 
 #endif

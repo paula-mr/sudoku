@@ -25,7 +25,6 @@ int main(int argc, char *argv[]) {
     for (int linha=0; linha<n; linha++) {
         for (int coluna=0; coluna<n; coluna++) {
             int valor = recuperarNumero(arquivo);
-
             grafo->adicionarAdjacencia(valor, linha, coluna);
         }
     }

@@ -14,6 +14,7 @@ class Grafo {
         Grafo(Node *nodes, int quantidadeColunas, int quantidadeLinhas, int tamanho);
         ~Grafo();
         void adicionarAdjacencia(int valor, int linha, int coluna);
+        bool estaCompleto();
         int recuperarGrau(int posicao);
         int recuperarGrauSaturado(int posicao);
         std::vector<int> recuperarCoresVizinhas(int posicao);

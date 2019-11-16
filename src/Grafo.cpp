@@ -18,6 +18,15 @@ Grafo::Grafo(Node *nodes, int quantidadeColunas, int quantidadeLinhas, int taman
 
 Grafo::~Grafo() = default;
 
+bool Grafo::estaCompleto() {
+    for (int i = 0; i < tamanho*tamanho; i++) {
+        if (nodes[i].valor == 0)
+            return false;
+    }
+
+    return true;
+}
+
 void Grafo::adicionarAdjacencia(int valor, int linha, int coluna) {
     int posicao = linha*tamanho + coluna;
     nodes[posicao].valor = valor;

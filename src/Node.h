@@ -7,6 +7,7 @@ class Node {
 
     public:
         std::vector<int> adjacencias;
+        std::vector<int> valoresRemovidos;
         int valor;
 };
 

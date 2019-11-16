@@ -7,17 +7,15 @@
 void atribuirCor(Grafo* grafo, int indice);
 int selecionarProximoIndice(Grafo* grafo);
 
-void resolver(Grafo* grafo) {
-	int quantidadeNodesColoridos = 0;
-	int tamanho = grafo->tamanho*grafo->tamanho;
-
-
-	while (quantidadeNodesColoridos < tamanho) {
+bool resolver(Grafo* grafo) {
+	while (!grafo->estaCompleto()) {
 		int indice = selecionarProximoIndice(grafo);
+
 		if (indice > -1)
 			atribuirCor(grafo, indice);
-		quantidadeNodesColoridos++;
 	}
+
+	return true;
 }
 
 int selecionarProximoIndice(Grafo* grafo) {
