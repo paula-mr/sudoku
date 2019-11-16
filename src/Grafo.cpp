@@ -63,10 +63,6 @@ void Grafo::adicionarAdjacencia(int valor, int linha, int coluna) {
     }
 }
 
-int Grafo::recuperarGrau(int posicao) {
-    return nodes[posicao].adjacencias.size();
-}
-
 int Grafo::recuperarGrauSaturado(int posicao) {
     std::vector<int> elementosUnicos = recuperarCoresVizinhas(posicao);
     return elementosUnicos.size();

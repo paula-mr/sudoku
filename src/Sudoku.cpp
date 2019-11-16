@@ -23,11 +23,6 @@ void resolver(Grafo* grafo) {
 					max = grauSaturacao;
 					index = i;
 				}
-				else if (grauSaturacao == max) {
-					if (grafo->recuperarGrau(i) > grafo->recuperarGrau(index)) {
-						index = i;
-					}
-				}
 			}
 		}
 
