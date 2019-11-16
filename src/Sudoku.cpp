@@ -4,7 +4,8 @@
 #include "Sudoku.h"
 #include "Util.h"
 
-void atribuirCor(Grafo* grafo, int index);
+void atribuirCor(Grafo* grafo, int indice);
+int selecionarProximoIndice(Grafo* grafo);
 
 void resolver(Grafo* grafo) {
 	int quantidadeNodesColoridos = 0;
@@ -12,33 +13,38 @@ void resolver(Grafo* grafo) {
 
 
 	while (quantidadeNodesColoridos < tamanho) {
-		int max = -1;
-		int index = -1;
-
-		for (int i = 0; i < tamanho; i++) {
-			if (grafo->nodes[i].valor == 0) {
-				//armazena quantos vizinhos coloridos o node possui
-				int grauSaturacao = grafo->recuperarGrauSaturado(i);
-				if (grauSaturacao > max) {
-					max = grauSaturacao;
-					index = i;
-				}
-			}
-		}
-
-		if (grafo->nodes[index].valor == 0)
-			atribuirCor(grafo, index);
-
+		int indice = selecionarProximoIndice(grafo);
+		if (indice > -1)
+			atribuirCor(grafo, indice);
 		quantidadeNodesColoridos++;
 	}
 }
 
-void atribuirCor(Grafo* grafo, int index) {
-	std::vector<int> cores = grafo->recuperarCoresVizinhas(index);
+int selecionarProximoIndice(Grafo* grafo) {
+	int maximo = -1;
+	int indice = -1;
+	int tamanho = grafo->tamanho*grafo->tamanho;
+
+	for (int i = 0; i < tamanho; i++) {
+		if (grafo->nodes[i].valor == 0) {
+			//armazena quantos vizinhos coloridos o node possui
+			int grauSaturacao = grafo->recuperarGrauSaturado(i);
+			if (grauSaturacao > maximo) {
+				maximo = grauSaturacao;
+				indice = i;
+			}
+		}
+	}
+
+	return indice;
+}
+
+void atribuirCor(Grafo* grafo, int indice) {
+	std::vector<int> cores = grafo->recuperarCoresVizinhas(indice);
 	unsigned int maiorValor = encontrarMaiorValor(cores);
 
 	if (cores.size() == maiorValor) {
-		grafo->nodes[index].valor = maiorValor+1;
+		grafo->nodes[indice].valor = maiorValor+1;
 	} else {
 		int cor = 0;
 		
@@ -47,7 +53,7 @@ void atribuirCor(Grafo* grafo, int index) {
 				cor = i;
 		}
 
-		grafo->nodes[index].valor = cor;
+		grafo->nodes[indice].valor = cor;
 	}
 }
 
