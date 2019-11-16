@@ -68,17 +68,8 @@ int Grafo::recuperarGrau(int posicao) {
 }
 
 int Grafo::recuperarGrauSaturado(int posicao) {
-    int grau = 0;
-    std::vector<int> elementosUnicos;
-
-    for (unsigned int i=0; i < nodes[posicao].adjacencias.size(); i++) {
-        int adjacencia = nodes[posicao].adjacencias[i];
-        if (nodes[adjacencia].valor != 0 && !contem(elementosUnicos, nodes[adjacencia].valor)) {
-            grau++;
-            elementosUnicos.push_back(nodes[nodes[posicao].adjacencias[i]].valor);
-        }
-    }
-    return grau;
+    std::vector<int> elementosUnicos = recuperarCoresVizinhas(posicao);
+    return elementosUnicos.size();
 }
 
 std::vector<int> Grafo::recuperarCoresVizinhas(int posicao) {
@@ -114,8 +105,7 @@ bool Grafo::validarLinha(int linha) {
     return true; 
 } 
   
-bool Grafo::validarColuna(int coluna) 
-{ 
+bool Grafo::validarColuna(int coluna) { 
     std::vector<int> numerosJaVistos; 
   
     for (int i = 0; i < tamanho; i++) { 
@@ -134,8 +124,7 @@ bool Grafo::validarColuna(int coluna)
     return true; 
 } 
 
-bool Grafo::validarQuadrante(int linhaInicial, int colunaInicial) 
-{ 
+bool Grafo::validarQuadrante(int linhaInicial, int colunaInicial) { 
     std::vector<int> numerosJaVistos; 
   
     for (int linha = 0; linha < quantidadeLinhas; linha++) { 
@@ -157,14 +146,12 @@ bool Grafo::validarQuadrante(int linhaInicial, int colunaInicial)
     return true; 
 } 
   
-bool Grafo::validarPosicao(int linha, int coluna) 
-{ 
+bool Grafo::validarPosicao(int linha, int coluna) { 
     return validarLinha(linha) && validarColuna(coluna) && 
            validarQuadrante(linha - linha % quantidadeLinhas, coluna - coluna % quantidadeColunas); 
 } 
   
-bool Grafo::validarSolucao() 
-{ 
+bool Grafo::validarSolucao() { 
     for (int i = 0; i < tamanho; i++) { 
         for (int j = 0; j < tamanho; j++) { 
             if (!validarPosicao(i, j)) 

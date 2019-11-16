@@ -30,14 +30,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    /*for (int k=0; k<n*n; k++) {
-        for (unsigned int l=0; l<grafo->nodes[k].adjacencias.size(); l++) {
-            std::cout << k << "-" << grafo->nodes[k].adjacencias[l] << " ";
-        }
-
-        std::cout << std::endl;
-    }*/
-
     resolver(grafo);
 
     if (grafo->validarSolucao())
@@ -64,13 +56,17 @@ FILE* abrirArquivo(int argc, char *argv[]) {
 }
 
 int recuperarNumero(FILE* arquivo) {
-    int numero = 0, auxiliar;
+    int numero = -1, auxiliar;
 
-    //enquanto char lido nao for espaco branco ou nova linha
-    while ((auxiliar = fgetc(arquivo)) != ' ' && auxiliar != '\n' && auxiliar != EOF) {
-        numero*=10;
-        //transforma char em valor numerico
-        numero+=auxiliar-48;
+    //enquanto nao for encontrado um numero valido
+    auxiliar = fgetc(arquivo);
+    while (numero < 0 && auxiliar != EOF) {
+        if (auxiliar != ' ' && auxiliar != '\n') {
+            //transforma char em valor numerico
+            numero = auxiliar-48;
+        }
+
+        auxiliar = fgetc(arquivo);
     }
 
     return numero;
