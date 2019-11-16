@@ -7,16 +7,17 @@
 void atribuirCor(Grafo* grafo, int index);
 
 void resolver(Grafo* grafo) {
-	int qtdNodesColoridos = 0;
+	int quantidadeNodesColoridos = 0;
 	int tamanho = grafo->tamanho*grafo->tamanho;
 
 
-	while (qtdNodesColoridos < tamanho) {
+	while (quantidadeNodesColoridos < tamanho) {
 		int max = -1;
 		int index = -1;
 
 		for (int i = 0; i < tamanho; i++) {
 			if (grafo->nodes[i].valor == 0) {
+				//armazena quantos vizinhos coloridos o node possui
 				int grauSaturacao = grafo->recuperarGrauSaturado(i);
 				if (grauSaturacao > max) {
 					max = grauSaturacao;
@@ -33,10 +34,7 @@ void resolver(Grafo* grafo) {
 		if (grafo->nodes[index].valor == 0)
 			atribuirCor(grafo, index);
 
-		qtdNodesColoridos++;
-
-		/*std::cout << index << std::endl;
-		grafo->imprimir();*/
+		quantidadeNodesColoridos++;
 	}
 }
 
