@@ -6,13 +6,12 @@
 
 void atribuirCor(Grafo* grafo, int indice);
 int selecionarProximoIndice(Grafo* grafo);
+int selecionarMelhorCor(Grafo* grafo, std::vector<int> coresVizinhas);
 
 bool resolver(Grafo* grafo) {
 	while (!grafo->estaCompleto()) {
 		int indice = selecionarProximoIndice(grafo);
-
-		if (indice > -1)
-			atribuirCor(grafo, indice);
+		atribuirCor(grafo, indice);
 	}
 
 	return true;
@@ -30,29 +29,59 @@ int selecionarProximoIndice(Grafo* grafo) {
 			if (grauSaturacao > maximo) {
 				maximo = grauSaturacao;
 				indice = i;
+			} else if (grauSaturacao == maximo && grafo->recuperarGrau(i) > grafo->recuperarGrau(indice)) {
+				maximo = grauSaturacao;
+				indice = i;
 			}
 		}
 	}
-
 	return indice;
 }
 
 void atribuirCor(Grafo* grafo, int indice) {
-	std::vector<int> cores = grafo->recuperarCoresVizinhas(indice);
-	unsigned int maiorValor = encontrarMaiorValor(cores);
+	std::vector<int> coresVizinhas = grafo->recuperarCoresVizinhas(indice);
+	unsigned int maiorValor = encontrarMaiorValor(coresVizinhas);
 
-	if (cores.size() == maiorValor) {
+	if (coresVizinhas.size() == maiorValor) {
 		grafo->nodes[indice].valor = maiorValor+1;
 	} else {
-		int cor = 0;
-		
-		for (int i = 1; i <= grafo->tamanho && cor == 0; i++) {
-			if (!contem(cores, i))
-				cor = i;
-		}
-
-		grafo->nodes[indice].valor = cor;
+		grafo->nodes[indice].valor = selecionarMelhorCor(grafo, coresVizinhas);
 	}
 }
+
+
+int selecionarMelhorCor(Grafo* grafo, std::vector<int> coresVizinhas) {
+	std::vector<int> coresPossiveis;
+	int contagem[grafo->tamanho+1];
+    int maiorValor = 0;
+    int cor = 0;
+
+    for (int i = 1; i < grafo->tamanho+1; i++) {
+        contagem[i] = 0;
+        if (!contem(coresVizinhas, i)) {
+            coresPossiveis.push_back(i);
+        }
+    }
+
+    if (coresPossiveis.size() == 1)
+        return coresPossiveis[0];
+
+    cor = coresPossiveis[0];
+	for (int i = 0; i < grafo->tamanho*grafo->tamanho; i++) {
+		if (grafo->nodes[i].valor != 0 && grafo->nodes[i].valor < grafo->tamanho+1) {
+			contagem[grafo->nodes[i].valor] = contagem[grafo->nodes[i].valor]+1;
+		}
+	}
+
+	for (unsigned int i = 0; i < coresPossiveis.size(); i++) {
+		if (contagem[coresPossiveis[i]] > maiorValor) {
+			cor = coresPossiveis[i];
+			maiorValor = contagem[coresPossiveis[i]];
+		}
+	}
+
+	return cor;
+}
+
 
 #endif

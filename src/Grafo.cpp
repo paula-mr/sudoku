@@ -72,6 +72,20 @@ void Grafo::adicionarAdjacencia(int valor, int linha, int coluna) {
     }
 }
 
+int Grafo::recuperarGrau(int posicao) {
+    std::vector<int> elementos;
+
+    //percorre as cores vizinhas adjacentes
+    for (unsigned int i=0; i < nodes[posicao].adjacencias.size(); i++) {
+        int adjacencia = nodes[posicao].adjacencias[i];
+        if (nodes[adjacencia].valor != 0) {
+            elementos.push_back(nodes[adjacencia].valor);
+        }
+    }
+    
+    return elementos.size();
+}
+
 int Grafo::recuperarGrauSaturado(int posicao) {
     std::vector<int> elementosUnicos = recuperarCoresVizinhas(posicao);
     return elementosUnicos.size();
