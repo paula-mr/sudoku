@@ -40,13 +40,7 @@ int selecionarProximoIndice(Grafo* grafo) {
 
 void atribuirCor(Grafo* grafo, int indice) {
 	std::vector<int> coresVizinhas = grafo->recuperarCoresVizinhas(indice);
-	unsigned int maiorValor = encontrarMaiorValor(coresVizinhas);
-
-	if (coresVizinhas.size() == maiorValor) {
-		grafo->nodes[indice].valor = maiorValor+1;
-	} else {
-		grafo->nodes[indice].valor = selecionarMelhorCor(grafo, coresVizinhas);
-	}
+	grafo->nodes[indice].valor = selecionarMelhorCor(grafo, coresVizinhas);
 }
 
 
@@ -62,6 +56,9 @@ int selecionarMelhorCor(Grafo* grafo, std::vector<int> coresVizinhas) {
             coresPossiveis.push_back(i);
         }
     }
+
+    if (coresPossiveis.size() == 0)
+    	return grafo->tamanho+1;
 
     if (coresPossiveis.size() == 1)
         return coresPossiveis[0];
