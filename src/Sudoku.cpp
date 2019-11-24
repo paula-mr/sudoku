@@ -50,6 +50,7 @@ int selecionarMelhorCor(Grafo* grafo, std::vector<int> coresVizinhas) {
     int maiorValor = 0;
     int cor = 0;
 
+    //seleciona cores possiveis
     for (int i = 1; i < grafo->tamanho+1; i++) {
         contagem[i] = 0;
         if (!contem(coresVizinhas, i)) {
@@ -63,6 +64,7 @@ int selecionarMelhorCor(Grafo* grafo, std::vector<int> coresVizinhas) {
     if (coresPossiveis.size() == 1)
         return coresPossiveis[0];
 
+    //realiza contagem de quantidade de cada cor no sudoku
     cor = coresPossiveis[0];
 	for (int i = 0; i < grafo->tamanho*grafo->tamanho; i++) {
 		if (grafo->nodes[i].valor != 0 && grafo->nodes[i].valor < grafo->tamanho+1) {
@@ -70,6 +72,7 @@ int selecionarMelhorCor(Grafo* grafo, std::vector<int> coresVizinhas) {
 		}
 	}
 
+	//seleciona cor que mais aparece
 	for (unsigned int i = 0; i < coresPossiveis.size(); i++) {
 		if (contagem[coresPossiveis[i]] > maiorValor) {
 			cor = coresPossiveis[i];
